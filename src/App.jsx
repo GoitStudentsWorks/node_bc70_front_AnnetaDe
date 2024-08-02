@@ -1,24 +1,47 @@
-import { useState } from 'react';
-
 import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import { Dashboard, Login, Registration, Start } from './pages';
+import PublicRoute from './routes/PublicRoute';
+import PrivateRoute from './routes/PrivateRoute';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount(count => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>App</h1>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        ></Route>
+        <Route
+          path="/"
+          element={
+            <PublicRoute>
+              <Start />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoute>
+              <Registration />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+      </Routes>
     </>
   );
 }
