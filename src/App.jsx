@@ -10,7 +10,7 @@ function App() {
       <h1>App</h1>
       <Routes>
         <Route
-          path="/"
+          path="/dashboard"
           element={
             <PrivateRoute>
               <Dashboard />
