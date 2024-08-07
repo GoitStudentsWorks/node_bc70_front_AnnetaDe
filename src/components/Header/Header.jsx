@@ -18,17 +18,18 @@ import Modal from '../Modal/Modal.jsx';
 import { useMedia } from '../../hooks/useMedia.jsx';
 import icons from '../../images/icons.svg';
 import SvgIconAnonym from './SvgIconAnonym.jsx';
-import { changeColorScheme } from '../../redux/themes/userPreferencesSlice.js';
+import { updateUserPreferencesThunk } from '../../redux/user/userOperations.js';
 
 const Header = () => {
   const dispatch = useDispatch();
-  const [theme, setTheme] = useState(selectOptions[1]);
-
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
   const userName = useSelector(selectUserName);
   const avatar = useSelector(selectAvatar);
   const userTheme = useSelector(selectUserTheme);
-  console.log(userTheme);
+  const [theme, setTheme] = useState(
+    selectOptions.filter(el => el.value === userTheme)
+  );
+
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const { isDesktop } = useMedia();
 
@@ -36,8 +37,9 @@ const Header = () => {
     dispatch(openModal());
   };
   const handleChange = selectedOption => {
-    dispatch(changeColorScheme(selectedOption.value));
     // setTheme(selectedOption);
+    dispatch(updateUserPreferencesThunk({ theme: selectedOption.value }));
+
     document.documentElement.setAttribute('theme', selectedOption.value);
   };
   useEffect(() => {
@@ -64,12 +66,13 @@ const Header = () => {
       )}
       <section className={s.right}>
         <Select
-          value={theme}
+          // value={theme} Люба, магия вот это надо было закоментировать и выбранная тема стала подсвечиваться
           onChange={handleChange}
           options={selectOptions}
           placeholder="Theme"
           styles={customStyles}
           components={customComponents}
+          isOptionSelected={true}
         />
         <div className={s.user_info} onClick={handleOpenModal}>
           <p>{userName ? userName : 'Anonym'}</p>

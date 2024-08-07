@@ -1,4 +1,3 @@
-
 import MyBoards from './MyBoards/MyBoards';
 import NeedHelp from './NeedHelp/NeedHelp';
 import LogOut from './LogOut/LogOut';
@@ -8,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectBoard } from '../../redux/user/userSelectors';
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { fetchBoards } from '../../redux/user/userOperations';
+import { fetchBoardsThunk } from '../../redux/boards/boardsOperations';
 import CreateNewBoard from './CreateNewBoard/CreateNewBoard';
 
 const Sidebar = () => {
@@ -18,7 +17,7 @@ const Sidebar = () => {
   const isMobile = useMediaQuery({ maxWidth: 1440 });
 
   useEffect(() => {
-    dispatch(fetchBoards());
+    dispatch(fetchBoardsThunk());
   }, [dispatch, selectBoards]);
 
   const handleToggleSidebar = () => {
@@ -58,7 +57,7 @@ const Sidebar = () => {
           <div className={s.title}>
             <div className={s.logo}>
               <svg className={s.logoIcon}>
-                <use href={`${icons}#icon-Logo-task-Pro`}  ></use>
+                <use href={`${icons}#icon-Logo-task-Pro`}></use>
               </svg>
             </div>
             <h2 className={s.mainTitle}>Task Pro</h2>
@@ -66,7 +65,7 @@ const Sidebar = () => {
           <CreateNewBoard />
         </div>
         <nav className={s.dashboards}>
-            <MyBoards />  
+          <MyBoards />
         </nav>
         <div className={s.needHelp}>
           <NeedHelp />

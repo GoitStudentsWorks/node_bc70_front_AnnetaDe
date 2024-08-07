@@ -18,10 +18,10 @@ import { useEffect } from 'react';
 function App() {
   const dispatch = useDispatch();
   const isRefreshing = useSelector(selectIsRefreshing);
- // useEffect(() => {
-  //   // dispatch(refreshTokensThunk());
-  //   dispatch(refreshUserThunk());
-  // }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(refreshUserThunk());
+  }, [dispatch]);
   return isRefreshing ? (
     <div>refreshing...</div>
   ) : (
