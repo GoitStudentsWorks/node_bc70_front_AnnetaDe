@@ -32,6 +32,5 @@ const userPreferencesSlice = createSlice({
       });
   },
 });
-export const { changeColorScheme, changeAvatar, changeUserName } =
-  userPreferencesSlice.actions;
+export const { changeColorScheme, changeAvatar } = userPreferencesSlice.actions;
 export const userPreferencesReducer = userPreferencesSlice.reducer;
