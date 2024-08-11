@@ -28,10 +28,10 @@ const DashboardLayout = () => {
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
         />
-        <ScreensPage
+        {/* <ScreensPage
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
-        />
+        /> */}
         Dashboard
         <Board />
       </div>
