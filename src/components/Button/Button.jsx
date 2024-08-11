@@ -33,9 +33,8 @@ export const Button = ({
       ) : (
         <button
           type={type}
-          //onClick={onClick ? onClick : null}
-          onClick={onClick}
-          className={clsx(s.btn, {
+          onClick={onClick ? onClick : null}
+          className={clsx(s.btn,className, {
             [s.transparent]: typeStyle === 'transparent',
             [s.primary]: typeStyle === 'primary',
             [s.secondary]: typeStyle === 'secondary',
