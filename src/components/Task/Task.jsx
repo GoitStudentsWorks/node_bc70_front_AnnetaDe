@@ -8,9 +8,7 @@ import { useEffect } from 'react';
 export const Task = ({ task }) => {
   const { title, description, priority, deadline } = task;
   const colorScheme = useSelector(selectUserTheme);
-  useEffect(() => {
-    document.documentElement.setAttribute('theme', colorScheme);
-  }, [colorScheme]);
+
   return (
     <li
       className={clsx(
