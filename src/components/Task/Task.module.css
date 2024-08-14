@@ -28,18 +28,6 @@
   width: 12px;
   border-radius: 50%;
 }
-/* .priorityColor {
-  background: var(--without-priority-background-color);
-}
-.priorityLow {
-  background: var(--low-priority-background-color);
-}
-.priorityMedium {
-  background: var(--medium-priority-background-color);
-}
-.priorityHigh {
-  background: var(--high-priority-background-color);
-} */
 
 .taskTitle {
   font-weight: 600;
