@@ -10,16 +10,7 @@ export const Task = ({ task }) => {
   );
 
   return (
-    <li
-      className={clsx(
-        s.boardTaskBackground,
-        s.priorityColor,
-        priority === 'low' && s.priorityLow,
-        priority === 'medium' && s.priorityMedium,
-        priority === 'high' && s.priorityHigh
-      )}
-      key={task._id}
-    >
+    <li className={s.boardTaskBackground} key={task._id}>
       <ul className={s.boardTask}>
         <li className={s.taskTitle}>{title}</li>
         <li className={s.taskDescr}>{description}</li>
