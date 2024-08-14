@@ -16,6 +16,7 @@ import {
 import { useEffect } from 'react';
 import { Column } from '../Column/Column';
 import s from './Board.module.css';
+import { updateTaskThunk } from '../../redux/tasks/tasksOperations';
 export const Board = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -35,29 +36,51 @@ export const Board = () => {
 
   const onDragEnd = result => {
     const { source, destination } = result;
+    console.log(result);
+
     if (!destination) {
       return;
     }
 
-    if (source.droppableId === destination.droppableId) {
-      dispatch(
-        updateTaskOrder({
-          source,
-          destination,
-          sourceColumnId: source.droppableId,
-          destinationColumnId: destination.droppableId,
-        })
-      );
-    } else {
-      dispatch(
-        updateTaskOrder({
-          source,
-          destination,
-          sourceColumnId: source.droppableId,
-          destinationColumnId: destination.droppableId,
-        })
-      );
-    }
+    // console.log(result.draggableId);
+    dispatch(
+      updateTaskOrder({
+        source,
+        destination,
+        sourceColumnId: source.droppableId,
+        destinationColumnId: destination.droppableId,
+      })
+    );
+
+    // console.log(id,22222 source.droppableId, destination.droppableId)111;
+    dispatch(
+      updateTaskThunk({
+        boardid: id,
+        columnid: source.droppableId,
+        taskid: result.draggableId,
+        body: { columnId: destination.droppableId },
+      })
+    );
+
+    // if (source.droppableId === destination.droppableId) {
+    //   dispatch(
+    //     updateTaskOrder({
+    //       source,
+    //       destination,
+    //       sourceColumnId: source.droppableId,
+    //       destinationColumnId: destination.droppableId,
+    //     })
+    //   );
+    // } else {
+    //   dispatch(
+    //     updateTaskOrder({
+    //       source,
+    //       destination,
+    //       sourceColumnId: source.droppableId,
+    //       destinationColumnId: destination.droppableId,
+    //     })
+    //   );
+    // }
   };
 
   return (
@@ -68,13 +91,9 @@ export const Board = () => {
         </div>
         <div className={s.board}>
           <ul className={s.boardColumn}>
-            {!filteredColumns.length
-              ? columns.map(column => (
-                  <Column key={column._id} column={column} />
-                ))
-              : filteredColumns.map(column => (
-                  <Column key={column._id} column={column} />
-                ))}
+            {columns.map(column => (
+              <Column key={column._id} column={column} />
+            ))}
           </ul>
         </div>
       </DragDropContext>
