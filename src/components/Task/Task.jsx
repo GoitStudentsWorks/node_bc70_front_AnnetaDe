@@ -4,6 +4,7 @@ import icons from '../../images/icons.svg';
 import { useSelector } from 'react-redux';
 import { selectUserTheme } from '../../redux/user/userSelectors';
 import { useEffect } from 'react';
+import { TaskControler } from './TaskControler';
 
 export const Task = ({ task }) => {
   const { title, description, priority, deadline } = task;
@@ -45,40 +46,7 @@ export const Task = ({ task }) => {
             {/* change for DatePicker */}
             {/* <span className={s.taskProps}>{deadline}</span> */}
           </div>
-          <ul className={s.taskActions}>
-            <li>
-              <svg
-                className={s.taskIcon}
-                // onClick={}
-              >
-                <use href={`${icons}#icon-glocke`}></use>
-              </svg>
-            </li>
-            <li>
-              <svg
-                className={s.taskIcon}
-                // onClick={}
-              >
-                <use href={`${icons}#icon-arrow-circle-broken-right`}></use>
-              </svg>
-            </li>
-            <li>
-              <svg
-                className={s.taskIcon}
-                // onClick={}
-              >
-                <use href={`${icons}#icon-pencil`}></use>
-              </svg>
-            </li>
-            <li>
-              <svg
-                className={s.taskIcon}
-                // onClick={}
-              >
-                <use href={`${icons}#icon-trash`}></use>
-              </svg>
-            </li>
-          </ul>
+          <TaskControler />
         </li>
       </ul>
     </li>
