@@ -3,14 +3,14 @@ import { useDispatch } from 'react-redux';
 import { getAllCoulumnsWithBoardIdThunk } from '../../redux/columns/columnsOperations';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { updateTaskOrder } from '../../redux/columns/columnsSlice';
+import {
+  filterColumns,
+  updateTaskOrder,
+} from '../../redux/columns/columnsSlice';
 import {
   selectBoardTitle,
-  selectColumnsOrderId,
   selectColumnsWithinBoard,
-  selectFilteredColumns,
-  selectTasksOrderId,
-  selectTasksWithinColumn,
+  selectFilter,
 } from '../../redux/columns/columnsSelectors';
 
 import { useEffect } from 'react';
@@ -20,19 +20,20 @@ import { updateTaskThunk } from '../../redux/tasks/tasksOperations';
 export const Board = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-
+  const filter = useSelector(selectFilter);
   useEffect(() => {
+    console.log(filter);
+
     if (id) {
       dispatch(getAllCoulumnsWithBoardIdThunk(id));
     }
-  }, [dispatch, id]);
+    if (filter) {
+      dispatch(filterColumns(filter));
+    }
+  }, [dispatch, id, filter]);
 
   const boardTitle = useSelector(selectBoardTitle);
   const columns = useSelector(selectColumnsWithinBoard);
-  const filteredColumns = useSelector(selectFilteredColumns);
-  const columnOrderId = useSelector(selectColumnsOrderId);
-  const tasksWithinBoard = useSelector(selectTasksWithinColumn);
-  const tasksOrderId = useSelector(selectTasksOrderId);
 
   const onDragEnd = result => {
     const { source, destination } = result;
