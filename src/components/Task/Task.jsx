@@ -1,14 +1,13 @@
 import clsx from 'clsx';
 import s from './Task.module.css';
-import icons from '../../images/icons.svg';
-import { useSelector } from 'react-redux';
-import { selectUserTheme } from '../../redux/user/userSelectors';
-import { useEffect } from 'react';
 import { TaskControler } from './TaskControler';
+import { priorities } from '../../constants/dataForBoardModal';
 
 export const Task = ({ task }) => {
   const { title, description, priority, deadline } = task;
-  const colorScheme = useSelector(selectUserTheme);
+  const priorityColor = priorities.find(
+    item => item.priorityLevel === priority
+  );
 
   return (
     <li
@@ -29,20 +28,15 @@ export const Task = ({ task }) => {
             Priority
             <div className={s.priorityBox}>
               <span
-                className={clsx(
-                  s.priorityCircle,
-                  s.priorityColor,
-                  priority === 'low' && s.priorityLow,
-                  priority === 'medium' && s.priorityMedium,
-                  priority === 'high' && s.priorityHigh
-                )}
+                style={{ backgroundColor: priorityColor.color }}
+                className={s.priorityCircle}
               ></span>
               <span className={s.taskProps}>{priority}</span>
             </div>
           </div>
           <div className={s.deadlineBox}>
             Deadline
-            <span className={s.taskProps}>2000</span>{' '}
+            <span className={s.taskProps}> 2000</span>{' '}
             {/* change for DatePicker */}
             {/* <span className={s.taskProps}>{deadline}</span> */}
           </div>
