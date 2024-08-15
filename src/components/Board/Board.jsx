@@ -37,7 +37,6 @@ export const Board = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(updateBoardThunk(id));
       dispatch(getAllCoulumnsWithBoardIdThunk(id));
     }
 

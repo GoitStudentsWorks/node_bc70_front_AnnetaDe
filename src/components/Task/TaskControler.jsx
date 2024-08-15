@@ -3,7 +3,10 @@ import icons from '../../images/icons.svg';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteTaskThunk } from '../../redux/tasks/tasksOperations';
+import {
+  deleteTaskThunk,
+  updateTaskThunk,
+} from '../../redux/tasks/tasksOperations';
 import ModalWithoutRedux from '../ModalWithoutRedux/ModalWithoutRedux';
 import CardForm from '../CardForm/CardForm';
 import { clsx } from 'clsx';
@@ -18,7 +21,6 @@ export const TaskControler = ({
   // console.log(taskid, columnid, boardid);
   const { id } = useParams();
   const dispatch = useDispatch();
-
   const [isEditOpen, setIsEditOpen] = useState();
   const openEditModal = () => {
     setIsEditOpen(true);
@@ -27,9 +29,7 @@ export const TaskControler = ({
     setIsEditOpen(false);
   };
   const handleDelete = taskid => {
-    dispatch(
-      deleteTaskThunk({ boardId: id, columnId: columnid, taskId: taskid })
-    );
+    dispatch(deleteTaskThunk({ boardid: id, columnid, taskid }));
   };
 
   return (
