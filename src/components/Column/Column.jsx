@@ -13,12 +13,12 @@ export const Column = ({ column }) => {
   const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
 
-  const openModal=()=>{
-    setIsOpen(true)
-  }
-  const closeModal=()=>{
-    setIsOpen(false)
-  }
+  const openModal = () => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
   return (
     <li className={s.li_col}>
@@ -39,7 +39,7 @@ export const Column = ({ column }) => {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <Task key={task.id} task={task} index={index}   columnId={column._id}/>
+                      <Task key={task.id} task={task} index={index} />
                     </div>
                   )}
                 </Draggable>
