@@ -8,6 +8,8 @@ import {
   updateTaskOrder,
 } from '../../redux/columns/columnsSlice';
 import {
+  selectBoardBackground,
+  selectBoardIcon,
   selectBoardTitle,
   selectColumnsOrderId,
   selectColumnsWithinBoard,
@@ -43,7 +45,29 @@ export const Board = () => {
   }, [dispatch, id, filter]);
 
   const boardTitle = useSelector(selectBoardTitle);
+  const boardBackground = useSelector(selectBoardBackground);
+  const boardIcon = useSelector(selectBoardIcon);
+  console.log('boardBackground', boardBackground);
   const columns = useSelector(selectColumnsWithinBoard);
+  const backgroundImg = useSelector(selectBoardBackground);
+
+  const getBackgroundImage = () => {
+    if (!backgroundImg) return '';
+
+    const { mobile, tablet, desktop } = backgroundImg;
+    const width = window.innerWidth;
+
+    if (width <= 768) {
+      return mobile; // mobile version
+    } else if (width <= 1024) {
+      return tablet; // tablet version
+    } else {
+      return desktop; // desktop version
+    }
+  };
+
+  const backgroundImage = getBackgroundImage();
+
   const [isOpen, setIsOpen] = useState();
   const openModal = () => {
     setIsOpen(true);
@@ -78,7 +102,14 @@ export const Board = () => {
   };
 
   return (
-    <div className={s.board_wrap}>
+    <div
+      className={s.board_wrap}
+      style={{
+        backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       <DragDropContext onDragEnd={onDragEnd} className={s.board_wrap}>
         <div className={s.boardTitle}>
           <h2>{boardTitle}</h2>
