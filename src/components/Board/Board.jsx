@@ -27,6 +27,7 @@ import { updateTaskThunk } from '../../redux/tasks/tasksOperations';
 import { Button } from '../Button/Button';
 import ModalWithoutRedux from '../ModalWithoutRedux/ModalWithoutRedux';
 import ColumnForm from '../ColumnForm/ColumnForm';
+import { updateBoardThunk } from '../../redux/boards/boardsOperations';
 
 export const Board = () => {
   const { id } = useParams();
@@ -36,6 +37,7 @@ export const Board = () => {
 
   useEffect(() => {
     if (id) {
+      dispatch(updateBoardThunk(id));
       dispatch(getAllCoulumnsWithBoardIdThunk(id));
     }
 

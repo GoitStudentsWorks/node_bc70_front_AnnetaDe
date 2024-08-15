@@ -27,15 +27,10 @@ export const TaskControler = ({
     setIsEditOpen(false);
   };
   const handleDelete = taskid => {
-    dispatch(deleteTaskThunk({ boardid, columnid, taskid }));
+    dispatch(
+      deleteTaskThunk({ boardId: id, columnId: columnid, taskId: taskid })
+    );
   };
-
-  // updateTaskThunk({
-  //   boardid: id,
-  //   columnid: columnid,
-  //   taskid: columnid,
-  //   body: { taskId: taskid },
-  // });
 
   return (
     <>
@@ -57,19 +52,7 @@ export const TaskControler = ({
         
         
         
-        {/* <li>
-          <button className={s.btn_icon}>
-            <svg
-              className={s.taskIcon}
-
-            <svg
-              className={s.taskIcon}
-              // onClick={}
-            >
-              <use href={`${icons}#icon-glocke`}></use>
-            </svg>
-          </button>
-        </li>
+   
         <li>
           <button className={s.btn_icon}>
             <svg
@@ -80,20 +63,7 @@ export const TaskControler = ({
             </svg>
           </button>
         </li> */}
-        <li>
-          <button className={s.btn_icon} onClick={openEditModal}>
-            <svg className={s.taskIcon}>
-              <use href={`${icons}#icon-pencil`}></use>
-            </svg>
-          </button>
-        </li>
-        <li>
-          <button className={s.btn_icon} onClick={openEditModal}>
-            <svg className={s.taskIcon}>
-              <use href={`${icons}#icon-pencil`}></use>
-            </svg>
-          </button>
-        </li>
+
         <li>
           <button className={s.btn_icon} onClick={openEditModal}>
             <svg
