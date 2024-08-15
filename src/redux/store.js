@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
   FLUSH,
   REHYDRATE,
@@ -35,7 +35,7 @@ const persistColumns = {
   key: ['columns'],
   version: 1,
   storage,
-  whitelist: ['columnsL'],
+  whitelist: ['columns', 'filter'],
 };
 
 export const store = configureStore({
