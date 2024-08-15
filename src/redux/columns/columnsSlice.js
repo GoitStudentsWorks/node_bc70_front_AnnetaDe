@@ -65,7 +65,6 @@ const columnSlice = createSlice({
       state.filter = payload;
     },
     filterColumns: (state, { payload }) => {
-      state.filter = payload;
       state.columnsL = state.columnsL
         .map(column => {
           const filteredTasks = column.tasks.filter(task => {
@@ -100,6 +99,7 @@ const columnSlice = createSlice({
           state.boardTitle = payload.title;
           state.boardIcon = payload.icon;
           state.boardBackground = payload.background;
+
           state.columnsL = payload.columns;
           state.columnsOrderId = payload.columns.map(column => column._id);
           state.tasksWithinBoard = payload.columns.reduce((acc, column) => {
@@ -113,9 +113,7 @@ const columnSlice = createSlice({
       .addCase(createNewColumnThunk.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.error = null;
-        console.log(payload);
-        
-        state.columnsL.push(payload.data);
+        state.columnsL.push(payload);
       })
       .addCase(updateColumnThunk.fulfilled, (state, action) => {
         const column = state.columnsL.find(

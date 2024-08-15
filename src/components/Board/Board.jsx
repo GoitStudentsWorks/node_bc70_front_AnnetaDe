@@ -3,34 +3,24 @@ import { useDispatch } from 'react-redux';
 import { getAllCoulumnsWithBoardIdThunk } from '../../redux/columns/columnsOperations';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import {
-  filterColumns,
-  updateTaskOrder,
-} from '../../redux/columns/columnsSlice';
+import { updateTaskOrder } from '../../redux/columns/columnsSlice';
 import {
   selectBoardTitle,
+  selectColumnsOrderId,
   selectColumnsWithinBoard,
-  selectFilter,
+  selectFilteredColumns,
+  selectTasksOrderId,
+  selectTasksWithinColumn,
 } from '../../redux/columns/columnsSelectors';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Column } from '../Column/Column';
 import s from './Board.module.css';
 import { updateTaskThunk } from '../../redux/tasks/tasksOperations';
-import { Button } from '../Button/Button';
-import icon from '../../images/icons.svg';
-import { selectCreateColumnOpen } from '../../redux/modal/modalSelector';
-import {
-  closeCreateColumnModal,
-  closeEditProfileModal,
-  openCreateColumnModal,
-} from '../../redux/modal/modalSlice';
-import Modal from '../Modal/Modal';
-import ColumnForm from '../ColumnForm/ColumnForm';
-import ModalWithoutRedux from '../ModalWithoutRedux/ModalWithoutRedux';
 export const Board = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (id) {
       dispatch(getAllCoulumnsWithBoardIdThunk(id));
@@ -39,9 +29,6 @@ export const Board = () => {
 
   const boardTitle = useSelector(selectBoardTitle);
   const columns = useSelector(selectColumnsWithinBoard);
-
-
- 
 
   const onDragEnd = result => {
     const { source, destination } = result;
@@ -62,9 +49,9 @@ export const Board = () => {
 
     dispatch(
       updateTaskThunk({
-        boardId: id,
-        columnId: source.droppableId,
-        taskId: result.draggableId,
+        boardid: id,
+        columnid: source.droppableId,
+        taskid: result.draggableId,
         body: { columnId: destination.droppableId },
       })
     );
@@ -91,37 +78,19 @@ export const Board = () => {
   };
 
   return (
-    <div className={s.board_wrap}>
-      <DragDropContext onDragEnd={onDragEnd}>
+    <>
+      <DragDropContext onDragEnd={onDragEnd} className={s.board_wrap}>
         <div className={s.boardTitle}>
           <h2>{boardTitle}</h2>
         </div>
         <div className={s.board}>
-          <div className={s.boardColumn}>
-            <ul>
-              {columns.map(column => (
-                <Column key={column._id} column={column} />
-              ))}
-            </ul>
-            <Button
-              buttonText="Add another column"
-              typeStyle="secondary"
-              icon={`${icon}#icon-plus-small`}
-              onClick={openModal}
-            />
-          </div>
+          <ul className={s.boardColumn}>
+            {columns.map(column => (
+              <Column key={column._id} column={column} />
+            ))}
+          </ul>
         </div>
       </DragDropContext>
-
-      {isOpen && (
-        <ModalWithoutRedux
-          isOpen={isOpen}
-          onClose={closeModal}
-          title="Add column"
-        >
-          <ColumnForm onClose={closeModal} type="create" boardId={id} />
-        </ModalWithoutRedux>
-      )}
-    </div>
+    </>
   );
 };
