@@ -12,12 +12,13 @@ import {
   updateTaskThunk,
 } from '../../redux/tasks/tasksOperations';
 import { selectBoardid, selectColumnid } from '../../redux/tasks/tasksSelctors';
+import { TaskControler } from './TaskControler';
 
 export const Task = ({ task }) => {
   const { title, description, priority, deadline } = task;
-  const priorityColor = priorities.find(
-    item => item.priorityLevel === priority
-  );
+  // const priorityColor = priorities.find(
+  //   item => item.priorityLevel === priority
+  // );
 
   return (
     <li className={s.boardTaskBackground} key={task._id}>
@@ -29,7 +30,7 @@ export const Task = ({ task }) => {
             Priority
             <div className={s.priorityBox}>
               <span
-                style={{ backgroundColor: priorityColor }}
+                // style={{ backgroundColor: priorityColor }}
                 className={s.priorityCircle}
               ></span>
               <span className={s.taskProps}>{priority}</span>

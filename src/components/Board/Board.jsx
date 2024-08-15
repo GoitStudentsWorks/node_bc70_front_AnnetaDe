@@ -31,34 +31,28 @@ import ModalWithoutRedux from '../ModalWithoutRedux/ModalWithoutRedux';
 export const Board = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const filter = useSelector(selectFilter);
   useEffect(() => {
-    console.log(filter);
-
     if (id) {
       dispatch(getAllCoulumnsWithBoardIdThunk(id));
     }
-    if (filter) {
-      dispatch(filterColumns(filter));
-    }
-  }, [dispatch, id, filter]);
+  }, [dispatch, id]);
 
   const boardTitle = useSelector(selectBoardTitle);
   const columns = useSelector(selectColumnsWithinBoard);
 
   const isCreateColumn = useSelector(selectCreateColumnOpen);
+
   const handleOpen = () => {
     dispatch(openCreateColumnModal());
   };
   console.log(columns);
-const [isOpen, setIsOpen] = useState()
-const openModal=()=>{
-  setIsOpen(true)
-}
-const closeModal=()=>{
-  setIsOpen(false)
-}
-
+  const [isOpen, setIsOpen] = useState();
+  const openModal = () => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
   const onDragEnd = result => {
     const { source, destination } = result;
@@ -68,7 +62,6 @@ const closeModal=()=>{
       return;
     }
 
-    // console.log(result.draggableId);
     dispatch(
       updateTaskOrder({
         source,
@@ -78,12 +71,11 @@ const closeModal=()=>{
       })
     );
 
-    // console.log(id,22222 source.droppableId, destination.droppableId)111;
     dispatch(
       updateTaskThunk({
-        boardid: id,
-        columnid: source.droppableId,
-        taskid: result.draggableId,
+        boardId: id,
+        columnId: source.droppableId,
+        taskId: result.draggableId,
         body: { columnId: destination.droppableId },
       })
     );
@@ -117,19 +109,18 @@ const closeModal=()=>{
         </div>
         <div className={s.board}>
           <div className={s.boardColumn}>
-          <ul >
-            {columns.map(column => (
-              <Column key={column._id} column={column} />
-            ))}
-          </ul>
-          <Button
-            buttonText="Add another column"
-            typeStyle="secondary"
-            icon={`${icon}#icon-plus-small`}
-            onClick={openModal}
-          />
+            <ul>
+              {columns.map(column => (
+                <Column key={column._id} column={column} />
+              ))}
+            </ul>
+            <Button
+              buttonText="Add another column"
+              typeStyle="secondary"
+              icon={`${icon}#icon-plus-small`}
+              onClick={openModal}
+            />
           </div>
-
         </div>
       </DragDropContext>
 
@@ -139,11 +130,7 @@ const closeModal=()=>{
           onClose={closeModal}
           title="Add column"
         >
-          <ColumnForm
-            onClose={closeModal}
-            type="create"
-            boardId={id}
-          />
+          <ColumnForm onClose={closeModal} type="create" boardId={id} />
         </ModalWithoutRedux>
       )}
     </div>
