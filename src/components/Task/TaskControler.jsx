@@ -44,10 +44,14 @@ export const TaskControler = ({
         <li>
           <button className={s.btn_icon}>
 
-         
             <WarningDedline />
           </button>
         </li>
+
+
+
+         
+         
         {/* <li>
           <button className={s.btn_icon}>
             <svg
@@ -74,6 +78,11 @@ export const TaskControler = ({
         <li>
           <button className={s.btn_icon} onClick={openEditModal}>
             <svg className={s.taskIcon}>
+
+              <use href={`${icons}#icon-pencil`}></use>
+            </svg>
+          </button>
+
         </li>
         <li>
           <button className={s.btn_icon} onClick={openEditModal}>
