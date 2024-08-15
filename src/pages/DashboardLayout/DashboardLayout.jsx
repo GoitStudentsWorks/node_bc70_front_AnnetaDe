@@ -19,6 +19,8 @@ const DashboardLayout = () => {
   const boards = useSelector(selectBoard);
   const path = useLocation().pathname;
 
+  console.log(boards, path);
+
   useEffect(() => {
     document.documentElement.setAttribute('theme', colorScheme);
     if (path === '/' && boards.length) {
