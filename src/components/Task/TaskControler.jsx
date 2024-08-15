@@ -12,7 +12,6 @@ export const TaskControler = ({
   taskid,
   columnid,
   boardid,
-  onOpen,
   task,
   className,
 }) => {
