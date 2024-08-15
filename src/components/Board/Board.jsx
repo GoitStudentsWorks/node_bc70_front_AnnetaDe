@@ -29,10 +29,6 @@ export const Board = () => {
 
   const boardTitle = useSelector(selectBoardTitle);
   const columns = useSelector(selectColumnsWithinBoard);
-  const filteredColumns = useSelector(selectFilteredColumns);
-  const columnOrderId = useSelector(selectColumnsOrderId);
-  const tasksWithinBoard = useSelector(selectTasksWithinColumn);
-  const tasksOrderId = useSelector(selectTasksOrderId);
 
   const onDragEnd = result => {
     const { source, destination } = result;
@@ -42,7 +38,6 @@ export const Board = () => {
       return;
     }
 
-    // console.log(result.draggableId);
     dispatch(
       updateTaskOrder({
         source,
@@ -52,7 +47,6 @@ export const Board = () => {
       })
     );
 
-    // console.log(id,22222 source.droppableId, destination.droppableId)111;
     dispatch(
       updateTaskThunk({
         boardid: id,
