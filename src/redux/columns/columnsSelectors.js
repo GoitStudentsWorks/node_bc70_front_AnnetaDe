@@ -9,3 +9,4 @@ export const selectColumnsWithinBoard = state => state.columns.columnsL;
 export const selectColumnsOrderId = state => state.columns.columnsOrderId;
 export const selectTasksOrderId = state => state.columns.tasksOrderId;
 export const selectCurrentBoardId = state => state.columns.currentBoardId;
+export const selectLoadingData = state => state.columns.isLoading;

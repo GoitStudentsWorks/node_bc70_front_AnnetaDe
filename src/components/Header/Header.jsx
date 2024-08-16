@@ -8,6 +8,7 @@ import {
 } from './selectSettings.jsx';
 import {
   selectAvatar,
+  selectIsLoading,
   selectUserName,
   selectUserTheme,
 } from '../../redux/user/userSelectors.js';
@@ -30,6 +31,7 @@ import {
   selectModal,
 } from '../../redux/modal/modalSelector.js';
 import ModalWithoutRedux from '../ModalWithoutRedux/ModalWithoutRedux.jsx';
+import Loader from '../Loader/Loader.jsx';
 
 const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
@@ -41,12 +43,14 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
     selectOptions.filter(el => el.value === userTheme)
   );
   const isOpen = useSelector(selectEditProfileModal);
+  // const isLoading = useSelector(selectIsLoading);
+  // const loadingData = useSelector(selectIsLoading);
 
   const { isDesktop } = useMedia();
 
-  const handleOpen = ()=>{
-    dispatch(openEditProfileModal())
-  }
+  const handleOpen = () => {
+    dispatch(openEditProfileModal());
+  };
 
   const handleChange = selectedOption => {
     setTheme(selectedOption);
@@ -74,6 +78,8 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
       ) : (
         <span></span>
       )}
+
+      {/* <Loader /> */}
       <section className={s.right}>
         <Select
           value={theme}
@@ -84,10 +90,7 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
           components={customComponents}
           isOptionSelected={true}
         />
-        <div
-          className={s.user_info}
-          onClick={handleOpen}
-        >
+        <div className={s.user_info} onClick={handleOpen}>
           <p>{userName ? userName : 'Anonym'}</p>
           {avatar ? (
             <div className={s.img_wrap}>
@@ -109,7 +112,7 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
           closeModal={closeEditProfileModal}
           title="Edit profile"
         >
-          <EditModal onClose={()=>dispatch(closeEditProfileModal())} />
+          <EditModal onClose={() => dispatch(closeEditProfileModal())} />
         </Modal>
       )}
     </header>
