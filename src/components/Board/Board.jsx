@@ -28,7 +28,8 @@ import ColumnForm from '../ColumnForm/ColumnForm';
 import { updateBoardThunk } from '../../redux/boards/boardsOperations';
 import { NewFilter } from '../NewFilter/NewFilter';
 import FilterSelect from '../FilterSelect/FilterSelect';
-
+import { useMedia } from '../../hooks/useMedia';
+import {getBackgroundImage} from '../../helpers/getBackgroundImage.js';
 export const Board = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -36,42 +37,27 @@ export const Board = () => {
   // const filteredColumns = useSelector(selectFilteredColumns);
 
   const currentBoardId = useSelector(selectCurrentBoardId);
-  // const boardId = currentBoardId ? currentBoardId : id;
-  // console.log(boardId);
+  const boardId = Object.entries(currentBoardId).length ? currentBoardId : id;
+
   useEffect(() => {
-    // if (Object.entries(currentBoardId).length) {
-    //   dispatch(getAllCoulumnsWithBoardIdThunk(currentBoardId));
-    // } else {
-    //   dispatch(getAllCoulumnsWithBoardIdThunk(id));
-    // }
+    if (boardId && Object.entries(boardId).length > 0) {
+      dispatch(getAllCoulumnsWithBoardIdThunk(boardId));
+    }
+  }, [boardId, dispatch]);
 
-    // if (filter) {
-    //   dispatch(filterColumns(filter));
-    // }
-
-    dispatch(getAllCoulumnsWithBoardIdThunk(id));
-  }, [dispatch, id]);
 
   const boardTitle = useSelector(selectBoardTitle);
   const columns = useSelector(selectFilteredTasks);
   const backgroundImg = useSelector(selectBoardBackground);
+  const { isMobile, isTablet, isDesktop } = useMedia();
 
-  const getBackgroundImage = () => {
-    if (!backgroundImg) return '';
-
-    const { mobile, tablet, desktop } = backgroundImg;
-    const width = window.innerWidth;
-
-    if (width <= 768) {
-      return mobile;
-    } else if (width <= 1440) {
-      return tablet;
-    } else {
-      return desktop;
-    }
-  };
-  const backgroundImage = getBackgroundImage();
-  const [isOpen, setIsOpen] = useState();
+  const backgroundImage = getBackgroundImage(
+    backgroundImg,
+    isMobile,
+    isTablet,
+    isDesktop
+  );
+  const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
     setIsOpen(true);
   };
@@ -114,7 +100,7 @@ export const Board = () => {
       }}
     >
       {/* <NewFilter /> */}
-      <FilterSelect />
+      <FilterSelect className={s.filter_select} />
 
       <div className={s.nested_wrap}>
         <DragDropContext onDragEnd={onDragEnd} className={s.board_wrap}>
