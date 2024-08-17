@@ -1,8 +1,7 @@
 import Select from 'react-select';
 import { useDispatch } from 'react-redux';
 
-import { filterColumns, setFilter } from '../../redux/columns/columnsSlice';
-
+import { setNewFilter } from '../../redux/columns/filterSlice';
 import options from '../../helpers/optionsForFilterSelect';
 import CustomOption from '../../helpers/CustomOptionsForFilterSelect';
 import CustomMenu from '../../helpers/CustomMenuForFilterSelect';
@@ -15,8 +14,8 @@ const FilterSelect = () => {
   const dispatch = useDispatch();
 
   const handleChange = ({ value }, selectProps) => {
-    dispatch(setFilter(value));
-    dispatch(filterColumns(value));
+    dispatch(setNewFilter(value));
+    // dispatch(filterColumns(value));
 
     if (selectProps && selectProps.onMenuClose) {
       selectProps.onMenuClose();

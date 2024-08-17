@@ -18,6 +18,7 @@ import { boardsReducer } from './boards/boardsSlice';
 import { supportReducer } from './support/supportSlice';
 import { columnsReducer } from './columns/columnsSlice';
 // import { tasksReducer } from './tasks/tasksSlice';
+import { filterReducer } from './columns/filterSlice';
 
 const persistUser = {
   key: ['user'],
@@ -35,7 +36,14 @@ const persistColumns = {
   key: ['columns'],
   version: 1,
   storage,
-  whitelist: ['columns', 'currentBoardId'],
+  whitelist: ['currentBoardId'],
+};
+
+const persistFilter = {
+  key: ['filter'],
+  version: 1,
+  storage,
+  whitelist: ['filter'],
 };
 
 export const store = configureStore({
@@ -48,6 +56,7 @@ export const store = configureStore({
     columns: persistReducer(persistColumns, columnsReducer),
     modal: modalReducer,
     support: supportReducer,
+    filter: persistReducer(persistFilter, filterReducer),
   },
 
   middleware: getDefaultMiddleware =>
