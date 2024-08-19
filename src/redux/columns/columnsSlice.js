@@ -10,7 +10,7 @@ import {
   deleteTaskThunk,
   updateTaskThunk,
 } from '../tasks/tasksOperations';
-import { deleteBoardThunk, updateBoardThunk } from '../boards/boardsOperations';
+import { createBoardThunk, deleteBoardThunk, updateBoardThunk } from '../boards/boardsOperations';
 import { logoutThunk } from '../user/userOperations';
 
 const initialState = {
@@ -94,18 +94,31 @@ const columnSlice = createSlice({
           }, []);
         }
       )
+      .addCase(logoutThunk.fulfilled, (state, action) => {
+        state.currentBoardId = {};
+      })
+      .addCase(createBoardThunk.fulfilled,  (state, action) => {
+        state.backgroundImg = action.payload.data.backgroundImg
+        ;
+      })
+      .addCase(deleteBoardThunk.fulfilled, (state, action)=>{
+        if(action.payload === state.currentBoardId){
+          state.currentBoardId = {}
+        }
+      })
       .addCase(createNewColumnThunk.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.error = null;
         state.columnsL.push(payload.data);
       })
       .addCase(updateColumnThunk.fulfilled, (state, action) => {
+        console.log(action);
+        
         const column = state.columnsL.find(
           column => column._id === action.payload.data._id
         );
         column.title = action.payload.data.title;
-        state.boardBackground = action.payload.backgroundImg;
-        state.boardBackground = action.payload.backgroundImg;
+        // state.boardBackground = action.payload.data.backgroundImg;
       })
       .addCase(updateBoardThunk.fulfilled, (state, action) => {
         state.boardBackground = action.payload.data.backgroundImg;
