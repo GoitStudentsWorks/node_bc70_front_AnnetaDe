@@ -95,15 +95,6 @@ export const Board = () => {
     } finally {
       dispatch(stopDrag());
     }
-
-    // dispatch(
-    //   updateTaskThunk({
-    //     boardid: id,
-    //     columnid: source.droppableId,
-    //     taskid: result.draggableId,
-    //     body: { columnId: destination.droppableId },
-    //   })
-    // );
   };
 
   return (
