@@ -22,6 +22,9 @@ const initialState = {
   columnsOrderId: [],
   tasks: [],
   currentBoardId: {},
+  status: 'idle',
+  isDragging: false,
+  undoList: [],
   // filter: null,
   // filteredColumns: [],
   tasksOrderId: [],
@@ -32,14 +35,24 @@ const columnSlice = createSlice({
   name: 'columns',
   initialState,
   reducers: {
+    startDrag: state => {
+      state.isDragging = true;
+    },
+    stopDrag: state => {
+      state.isDragging = false;
+    },
+    undoDrag: state => {
+      if (state.undoList.length) {
+        const lastState = state.undoList[state.undoList.length - 1];
+        state.columnsL = lastState.columnsL;
+      }
+    },
     updateTaskOrder: (state, action) => {
       const { source, destination, sourceColumnId, destinationColumnId } =
         action.payload;
-
       if (!destination) {
         return;
       }
-
       const sourceColumn = state.columnsL.find(
         column => column._id === sourceColumnId
       );
@@ -55,74 +68,7 @@ const columnSlice = createSlice({
         destinationColumn.tasks.splice(destination.index, 0, removed);
       }
     },
-
-    // if (!destination) {
-    //   return;
-    // }
-    // if (state.columnsL.length) {
-    //   const sourceColumn = state.columnsL.find(
-    //     column => column._id === sourceColumnId
-    //   );
-    //   const destinationColumn = state.columnsL.find(
-    //     column => column._id === destinationColumnId
-    //   );
-
-    //   if (sourceColumnId === destinationColumnId) {
-    //     const [removed] = sourceColumn.tasks.splice(source.index, 1);
-    //     sourceColumn.tasks.splice(destination.index, 0, removed);
-    //   } else {
-    //     const [removed] = sourceColumn.tasks.splice(source.index, 1);
-    //     destinationColumn.tasks.splice(destination.index, 0, removed);
-    //   }
-    // }
-    // } else {
-    //   const sourceColumn = state.columnsL.find(
-    //     column => column._id === sourceColumnId
-    //   );
-    //   const destinationColumn = state.columnsL.find(
-    //     column => column._id === destinationColumnId
-    //   );
-
-    // if (sourceColumnId === destinationColumnId) {
-    //   const [removed] = sourceColumn.tasks.splice(source.index, 1);
-    //   sourceColumn.tasks.splice(destination.index, 0, removed);
-    // } else {
-    //   const [removed] = sourceColumn.tasks.splice(source.index, 1);
-    //   destinationColumn.tasks.splice(destination.index, 0, removed);
-    // }
   },
-
-  // setFilter: (state, { payload }) => {
-  //   state.filter = payload;
-  // },
-  // setFilteredColumns: state => {
-  //   state.filteredColumns = [];
-  // },
-  // filterColumns: (state, { payload }) => {
-  //   state.filteredColumns = state.columnsL
-  //     .map(column => {
-  //       const filteredTasks = column.tasks.filter(task => {
-  //         if (payload === 'all') {
-  //           return true;
-  //         }
-
-  //         return task.priority === payload;
-  //       });
-
-  //       return {
-  //         ...column,
-  //         tasks: filteredTasks,
-  //       };
-  //     })
-  //     .filter(column => column.tasks.length > 0);
-  // },
-
-  // deleteTask: (state, { payload }) => {
-  //   state.columnsL = state.columnsL.map(column => {
-  //     column.tasks = column.tasks.filter(task => task._id !== payload);
-  //     return column;
-  //   });
-  // },
 
   extraReducers: builder => {
     builder
@@ -148,15 +94,6 @@ const columnSlice = createSlice({
           }, []);
         }
       )
-      .addCase(logoutThunk.fulfilled, (state, action) => {
-        state.currentBoardId = {};
-      })
-      .addCase(deleteBoardThunk.fulfilled, (state, action)=>{
-
-        if(action.payload === state.currentBoardId){
-          state.currentBoardId = {}
-        }
-      })
       .addCase(createNewColumnThunk.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.error = null;
@@ -167,6 +104,7 @@ const columnSlice = createSlice({
           column => column._id === action.payload.data._id
         );
         column.title = action.payload.data.title;
+        state.boardBackground = action.payload.backgroundImg;
         state.boardBackground = action.payload.backgroundImg;
       })
       .addCase(updateBoardThunk.fulfilled, (state, action) => {
@@ -238,11 +176,11 @@ const columnSlice = createSlice({
   },
 });
 export const {
-  updateColumnOrder,
+  // updateColumnOrder,
+  startDrag,
+  stopDrag,
+  undoDrag,
   updateTaskOrder,
-  // setFilter,
-  // setFilteredColumns,
-  // filterColumns,
   deleteTask,
 } = columnSlice.actions;
 export const columnsReducer = columnSlice.reducer;
