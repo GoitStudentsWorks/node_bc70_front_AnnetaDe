@@ -29,14 +29,7 @@ import { useMedia } from '../../hooks/useMedia';
 import { getBackgroundImage } from '../../helpers/getBackgroundImage.js';
 export const Board = () => {
   const { id } = useParams();
-  console.log('id', id);
   const dispatch = useDispatch();
-
-  const currentBoardId = useSelector(selectCurrentBoardId);
-  console.log('currentBoardId', currentBoardId);
-
-  // const boardId = Object.entries(currentBoardId).length ? currentBoardId : id;
-  // console.log('boardid', boardId);
   useEffect(() => {
     if (id) {
       dispatch(getAllCoulumnsWithBoardIdThunk(id));
