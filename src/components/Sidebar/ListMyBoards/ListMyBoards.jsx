@@ -20,7 +20,6 @@ import Modal from '../../Modal/Modal';
 import BoardModal from '../BoardModal/BoardModal';
 
 import { selectCurrentBoardId } from '../../../redux/columns/columnsSelectors';
-import ModalWithoutRedux from '../../ModalWithoutRedux/ModalWithoutRedux';
 
 const ListMyBoards = ({ className }) => {
   const dispatch = useDispatch();
