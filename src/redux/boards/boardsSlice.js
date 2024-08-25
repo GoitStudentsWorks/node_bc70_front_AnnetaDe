@@ -5,7 +5,6 @@ import {
   fetchBoardsThunk,
   updateBoardThunk,
 } from './boardsOperations';
-import { updateColumnThunk } from '../columns/columnsOperations';
 const initialState = {
   boards: [],
   boardsIds: [],
@@ -13,10 +12,17 @@ const initialState = {
   error: null,
   boardBackground: {},
   currentBoard: null,
+  justCreatedBoard: null,
+  justUpdatedBoard: null,
 };
 const boardSlice = createSlice({
   name: 'boards',
   initialState,
+  reducers: {
+    setCurrentBoard: (state, { payload }) => {
+      state.currentBoard = payload;
+    },
+  },
 
   extraReducers: builder => {
     builder
@@ -30,6 +36,7 @@ const boardSlice = createSlice({
         state.isLoading = false;
         state.error = null;
         state.boards.push(payload.data);
+        state.justCreatedBoard = payload.data;
       })
       .addCase(updateBoardThunk.fulfilled, (state, action) => {
         const board = state.boards.find(
@@ -39,18 +46,17 @@ const boardSlice = createSlice({
           board.title = action.payload.data.title;
           board.icon = action.payload.data.icon;
           board.backgroundImg = action.payload.data.backgroundImg;
-          // board.boardBackground =
         }
         state.boardBackground = action.payload.data.backgroundImg;
       })
       .addCase(deleteBoardThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        const index = state.boards.findIndex(
-          board => board._id === action.payload
+        state.boards = state.boards.filter(
+          board => board._id !== action.payload.data._id
         );
-        state.boards.splice(index, 1);
       });
   },
 });
 export const boardsReducer = boardSlice.reducer;
+export const { setCurrentBoard, deleteCurrentBoard } = boardSlice.actions;

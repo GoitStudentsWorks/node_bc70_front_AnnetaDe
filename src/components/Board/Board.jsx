@@ -11,7 +11,6 @@ import {
 import {
   selectBoardBackground,
   selectBoardTitle,
-  selectCurrentBoardId,
   selectFilteredTasks,
 } from '../../redux/columns/columnsSelectors';
 import icon from '../../images/icons.svg';
@@ -35,12 +34,10 @@ export const Board = () => {
       dispatch(getAllCoulumnsWithBoardIdThunk(id));
     }
   }, [id, dispatch]);
-
   const boardTitle = useSelector(selectBoardTitle);
   const columns = useSelector(selectFilteredTasks);
   const backgroundImg = useSelector(selectBoardBackground);
   const { isMobile, isTablet, isDesktop } = useMedia();
-
   const backgroundImage = getBackgroundImage(
     backgroundImg,
     isMobile,
@@ -54,11 +51,9 @@ export const Board = () => {
   const closeModal = () => {
     setIsOpen(false);
   };
-
   const onDragStart = () => {
     dispatch(startDrag());
   };
-
   const onDragEnd = async result => {
     const { source, destination } = result;
 
@@ -125,7 +120,6 @@ export const Board = () => {
           </div>
         </DragDropContext>
       </div>
-
       {isOpen && (
         <ModalWithoutRedux
           isOpen={isOpen}

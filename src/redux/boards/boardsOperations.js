@@ -32,6 +32,7 @@ export const updateBoardThunk = createAsyncThunk(
     const { _id, ...body } = board;
     try {
       const { data } = await taskProApi.patch(`api/boards/${_id}`, body);
+      console.log(data);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -41,7 +42,6 @@ export const updateBoardThunk = createAsyncThunk(
 export const deleteBoardThunk = createAsyncThunk(
   'boards/deleteBoard',
   async (boardId, thunkAPI) => {
-
     try {
       await taskProApi.delete(`api/boards/${boardId}`);
       return boardId;

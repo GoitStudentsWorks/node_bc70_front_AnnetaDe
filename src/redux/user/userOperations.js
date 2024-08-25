@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { taskProApi } from '../../config/api';
 import { taskProApiUnAutorized } from '../../config/api';
-import { set } from 'date-fns';
 
 export const setToken = accessToken => {
   taskProApi.defaults.headers.common.Authorization = `Bearer ${accessToken}`;

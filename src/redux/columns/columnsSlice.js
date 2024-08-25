@@ -10,7 +10,11 @@ import {
   deleteTaskThunk,
   updateTaskThunk,
 } from '../tasks/tasksOperations';
-import { createBoardThunk, deleteBoardThunk, updateBoardThunk } from '../boards/boardsOperations';
+import {
+  createBoardThunk,
+  deleteBoardThunk,
+  updateBoardThunk,
+} from '../boards/boardsOperations';
 import { logoutThunk } from '../user/userOperations';
 
 const initialState = {
@@ -97,13 +101,12 @@ const columnSlice = createSlice({
       .addCase(logoutThunk.fulfilled, (state, action) => {
         state.currentBoardId = {};
       })
-      .addCase(createBoardThunk.fulfilled,  (state, action) => {
-        state.backgroundImg = action.payload.data.backgroundImg
-        ;
+      .addCase(createBoardThunk.fulfilled, (state, action) => {
+        state.backgroundImg = action.payload.data.backgroundImg;
       })
-      .addCase(deleteBoardThunk.fulfilled, (state, action)=>{
-        if(action.payload === state.currentBoardId){
-          state.currentBoardId = {}
+      .addCase(deleteBoardThunk.fulfilled, (state, action) => {
+        if (action.payload === state.currentBoardId) {
+          state.currentBoardId = {};
         }
       })
       .addCase(createNewColumnThunk.fulfilled, (state, { payload }) => {
@@ -113,7 +116,7 @@ const columnSlice = createSlice({
       })
       .addCase(updateColumnThunk.fulfilled, (state, action) => {
         console.log(action);
-        
+
         const column = state.columnsL.find(
           column => column._id === action.payload.data._id
         );
@@ -122,6 +125,8 @@ const columnSlice = createSlice({
       })
       .addCase(updateBoardThunk.fulfilled, (state, action) => {
         state.boardBackground = action.payload.data.backgroundImg;
+        state.boardTitle = action.payload.data.title;
+        state.boardIcon = action.payload.data.icon;
       })
       .addCase(deleteColumnThunk.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -134,11 +139,8 @@ const columnSlice = createSlice({
       .addCase(createNewTaskThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-
         const { columnid } = action.meta.arg;
-
         const column = state.columnsL.find(column => column._id === columnid);
-
         if (column) {
           const newTask = action.payload.data;
           column.tasks.push(newTask);
@@ -149,10 +151,8 @@ const columnSlice = createSlice({
       .addCase(deleteTaskThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-
         const { columnid, taskid } = action.meta.arg;
         const column = state.columnsL.find(column => column._id === columnid);
-
         if (column) {
           column.tasks = column.tasks.filter(task => task._id !== taskid);
         }

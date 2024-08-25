@@ -5,23 +5,17 @@ import { selectUserTheme } from '../../redux/user/userSelectors';
 import { useSelector } from 'react-redux';
 
 import s from './DashboardLayout.module.css';
-import { Board } from '../../components/Board/Board';
-import ScreensPage from '../ScreensPage/ScreensPage';
-import { useDispatch } from 'react-redux';
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
-import FilterSelect from '../../components/FilterSelect/FilterSelect';
-import { selectBoard } from '../../redux/boards/boardsSelectors';
-import { NewFilter } from '../../components/NewFilter/NewFilter';
+
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { selectBoards } from '../../redux/boards/boardsSelectors';
 import Loader from '../../components/Loader/Loader';
-import { selectCurrentBoardId } from '../../redux/columns/columnsSelectors';
 
 const DashboardLayout = () => {
   const colorScheme = useSelector(selectUserTheme);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
-  const boards = useSelector(selectBoard);
+  const boards = useSelector(selectBoards);
   const path = useLocation().pathname;
-  const currentBoardId = useSelector(selectCurrentBoardId);
 
   useEffect(() => {
     document.documentElement.setAttribute('theme', colorScheme);

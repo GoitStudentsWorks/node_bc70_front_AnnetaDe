@@ -1,11 +1,12 @@
 import { useSelector } from 'react-redux';
-import { selectBoard } from '../../../redux/boards/boardsSelectors';
+import { selectBoards } from '../../../redux/boards/boardsSelectors';
 import s from './ListMyBoards.module.css';
 import { useDispatch } from 'react-redux';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import {
   deleteBoardThunk,
+  fetchBoardByIdThunk,
   fetchBoardsThunk,
 } from '../../../redux/boards/boardsOperations';
 import clsx from 'clsx';
@@ -19,28 +20,29 @@ import {
 import Modal from '../../Modal/Modal';
 import BoardModal from '../BoardModal/BoardModal';
 
-import { selectCurrentBoardId } from '../../../redux/columns/columnsSelectors';
+import { selectCurrentBoard } from '../../../redux/boards/boardsSelectors';
 
-const ListMyBoards = ({ className }) => {
+export const ListMyBoards = ({ className }) => {
   const dispatch = useDispatch();
+  const [chosenBoard, setChosenBoard] = useState(null);
 
   useEffect(() => {
     dispatch(fetchBoardsThunk());
   }, [dispatch]);
 
-  const navigate = useNavigate();
-  const boards = useSelector(selectBoard);
-  const currentBoardId = useSelector(selectCurrentBoardId);
+  const boards = useSelector(selectBoards);
+  const currentBoardId = useSelector(selectCurrentBoard);
   const isEditBoardOpen = useSelector(selectEditBoardOpen);
-  const [chosenBoard, setChosenBoard] = useState(null);
 
   const handleEditOpen = id => {
     setChosenBoard(boards.find(board => board._id === id));
     dispatch(openEditBoarModaal(chosenBoard));
   };
-  const handleDelete = async boardId => {
-    await dispatch(deleteBoardThunk(boardId)).unwrap();
-    navigate('/');
+  const handleDelete = boardId => {
+    dispatch(deleteBoardThunk(boardId));
+  };
+  const closeModal = () => {
+    dispatch(closeEditBoardModaal());
   };
   return (
     <ul className={clsx(s.boards_list, className)}>
@@ -49,6 +51,11 @@ const ListMyBoards = ({ className }) => {
         return (
           <li key={board._id} className={s.li_board_item}>
             <NavLink
+              onClick={() => {
+                dispatch(fetchBoardByIdThunk(board._id));
+
+                console.log('click');
+              }}
               to={`board/${board._id}`}
               className={({ isActive }) =>
                 clsx(s.board_item, board._id === currentBoardId ? s.active : '')
@@ -100,11 +107,10 @@ const ListMyBoards = ({ className }) => {
             title={chosenBoard.title}
             chosenIcon={chosenBoard.icon}
             chosenBackGround={chosenBoard.preview}
-            onClose={() => dispatch(closeEditBoardModaal())}
+            onClose={() => closeModal()}
           />
         </Modal>
       )}
     </ul>
   );
 };
-export default ListMyBoards;

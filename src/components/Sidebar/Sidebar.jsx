@@ -6,16 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import CreateNewBoard from './CreateNewBoard/CreateNewBoard';
 import { fetchBoardsThunk } from '../../redux/boards/boardsOperations';
-import { selectBoard } from '../../redux/boards/boardsSelectors';
+import { selectBoards } from '../../redux/boards/boardsSelectors';
 import Logo from '../Logo/Logo';
 import { useMedia } from '../../hooks/useMedia';
-import ListMyBoards from './ListMyBoards/ListMyBoards';
+import { ListMyBoards } from './ListMyBoards/ListMyBoards';
 import clsx from 'clsx';
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
-  const dispatch = useDispatch();
-  const selectBoards = useSelector(selectBoard);
   const { isDesktop } = useMedia();
-
   const handleOutsideClick = event => {
     const target = event.target;
     if (
@@ -45,6 +42,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
       document.removeEventListener('click', handleOutsideClick);
     };
   }, [isSidebarOpen, isDesktop]);
+
   return (
     <>
       {!isDesktop && isSidebarOpen && (

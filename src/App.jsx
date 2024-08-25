@@ -11,10 +11,10 @@ import Loader from './components/Loader/Loader';
 import { Board } from './components/Board/Board';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
+const ScreensPage = lazy(() => import('./pages/ScreensPage/ScreensPage'));
 function App() {
   const dispatch = useDispatch();
   const isRefreshing = useSelector(selectIsRefreshing);
-
   useEffect(() => {
     dispatch(refreshUserThunk());
   }, [dispatch]);
@@ -32,7 +32,7 @@ function App() {
         }
       >
         <Route index element={<HomePage />} />
-        <Route path="board/:id" element={<Board />} />
+        <Route path="board/:id" element={<ScreensPage />} />
       </Route>
       <Route
         path="/welcome"
