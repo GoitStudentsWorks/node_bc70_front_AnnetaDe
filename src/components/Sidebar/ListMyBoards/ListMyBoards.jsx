@@ -52,8 +52,6 @@ export const ListMyBoards = ({ className }) => {
           <li key={board._id} className={s.li_board_item}>
             <NavLink
               onClick={() => {
-                dispatch(fetchBoardByIdThunk(board._id));
-
                 console.log('click');
               }}
               to={`board/${board._id}`}
